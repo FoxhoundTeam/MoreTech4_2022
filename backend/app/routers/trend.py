@@ -20,11 +20,10 @@ router = APIRouter(
 )
 def get_trends(
     favorite: Optional[bool] = None,
-    exclude_ids: Optional[str] = None,
     trend_service: TrendService = Depends(),
     user=Depends(get_current_user),
 ):
-    return paginate(trend_service.filter_all(user, favorite, exclude_ids))
+    return paginate(trend_service.filter_all(user, favorite))
 
 
 @router.post(
@@ -37,3 +36,14 @@ def favorite_trends(
     user=Depends(get_current_user),
 ):
     return trend_service.add_or_remove_favorite(trend_id, user)
+
+
+@router.get(
+    "/{trend_id}/news/",
+    response_model=list[schemes.NewsORM],
+)
+def trend_news(
+    trend_id: int,
+    trend_service: TrendService = Depends(),
+):
+    return trend_service.get_news(trend_id)

@@ -7,12 +7,12 @@ class UserService(BaseDBService):
         return self.session.query(database.User).get(_id)
 
     def patch_user(self, user: database.User, patch_data: schemes.UserPatch):
-        for key, value in patch_data.dict(exclude_none=True, exclude={"interesting_trends"}).items():
+        for key, value in patch_data.dict(exclude_none=True, exclude={"interesting_themes"}).items():
             setattr(user, key, value)
-        if (its := patch_data.interesting_trends) is not None:
+        if (its := patch_data.interesting_themes) is not None:
             user.interesting_trends = (
-                self.session.query(database.InterestingTrend)
-                .filter(database.InterestingTrend.id.in_([it.id for it in its]))
+                self.session.query(database.InterestingTheme)
+                .filter(database.InterestingTheme.id.in_([it.id for it in its]))
                 .all()
             )
         self.session.add(user)

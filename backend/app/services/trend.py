@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy import exists
+from sqlalchemy import and_, exists
 from sqlalchemy.orm import Query, with_expression
 from sqlalchemy.sql.elements import UnaryExpression
 
@@ -24,13 +24,10 @@ class TrendService(BaseDBService):
             favorite_expr,
         )
 
-    def filter_all(self, user: database.User, favorite: Optional[bool], exclude_ids: Optional[str]) -> Query:
+    def filter_all(self, user: database.User, favorite: Optional[bool]) -> Query:
         query, favorite_expr = self._get_all_query(user)
         if favorite:
             query = query.filter(favorite_expr.is_(favorite))
-        if exclude_ids:
-            ids = list(map(int, exclude_ids.split(",")))
-            query = query.filter(database.Trend.id.not_in(ids))
         return query
 
     def add_or_remove_favorite(self, trend_id: int, user: database.User):
@@ -47,3 +44,17 @@ class TrendService(BaseDBService):
 
         self.session.add(user)
         self.session.commit()
+
+    def get_news(self, trend_id: int) -> list[database.News]:
+        query: Query = self.session.query(database.News)
+        return (
+            query.join(database.trend_news)
+            .join(
+                database.Trend,
+                and_(
+                    database.trend_news.c.trend_id == database.Trend.id,
+                    database.Trend.id == trend_id,
+                ),
+            )
+            .all()
+        )

@@ -17,7 +17,13 @@ JWTHeader = APIKeyHeader(name="Authorization")
 def get_current_user(
     token: str = Depends(JWTHeader), session: Session = Depends(database.get_session)
 ) -> database.User:
-    return session.query(database.User).filter(database.User.email == AuthService.verify_token(token).email).first()
+    user = session.query(database.User).filter(database.User.email == AuthService.verify_token(token).email).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized",
+        )
+    return user
 
 
 class AuthService(BaseDBService):

@@ -3,12 +3,12 @@ from typing import Optional
 from pydantic import EmailStr, conint
 
 from .base import CamelModel
-from .interesting_trend import InterestingTrendORM
+from .interesting_theme import InterestingThemeORM
 
 
 class BaseUser(CamelModel):
     email: EmailStr
-    relevant_trends_count: conint(gt=0, le=10) = 3
+    relevant_digests_count: conint(gt=0, le=10) = 3
 
 
 class UserCreate(BaseUser):
@@ -18,14 +18,14 @@ class UserCreate(BaseUser):
 
 class UserPatch(CamelModel):
     email: Optional[EmailStr] = None
-    relevant_trends_count: Optional[conint(gt=0, le=10)] = None
-    interesting_trends: Optional[list[InterestingTrendORM]] = None
+    relevant_digests_count: Optional[conint(gt=0, le=10)] = None
+    interesting_themes: Optional[list[InterestingThemeORM]] = None
     keywords: Optional[list[str]] = None
 
 
 class UserORM(BaseUser):
     id: int
-    interesting_trends: list[InterestingTrendORM]
+    interesting_themes: list[InterestingThemeORM]
     keywords: list[str]
 
     class Config:

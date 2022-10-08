@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 
-from app import schemes
+from app import database, schemes
 from app.services.auth import AuthService, get_current_user
 
 router = APIRouter(
@@ -39,6 +39,6 @@ def sign_in(
 def change_password(
     data: schemes.ChangePassword,
     auth_service: AuthService = Depends(),
-    user: schemes.UserORM = Depends(get_current_user),
+    user: database.User = Depends(get_current_user),
 ):
     auth_service.change_password(data, user)

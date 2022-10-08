@@ -1,11 +1,11 @@
 from .base import CamelModel
 
 
-class InterestingTrend(CamelModel):
+class InterestingTheme(CamelModel):
     name: str
 
 
-class InterestingTrendORM(InterestingTrend):
+class InterestingThemeORM(InterestingTheme):
     id: int
 
     class Config:

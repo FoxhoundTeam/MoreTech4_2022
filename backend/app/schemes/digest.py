@@ -1,22 +1,15 @@
-import datetime
-
 from pydantic import Field
 
 from .base import CamelModel
 
 
-class Trend(CamelModel):
+class Digest(CamelModel):
     title: str
-    date: datetime.date
     topic: list[str] = Field(default_factory=[])
 
 
-class TrendORM(Trend):
+class DigestORM(Digest):
     id: int
 
     class Config:
         orm_mode = True
-
-
-class TrendWithFavoriteORM(TrendORM):
-    favorite: bool
