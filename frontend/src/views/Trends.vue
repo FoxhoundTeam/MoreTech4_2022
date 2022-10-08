@@ -3,6 +3,7 @@
     <v-row>
       <v-col cols="4">
         <recommendation-settings @onSave="getDigests" />
+        <v-slider v-model="day" step="3" min="0" max="30"></v-slider>
       </v-col>
       <v-col cols="6">
         <h2>Дайджесты</h2>
@@ -56,11 +57,21 @@ export default Vue.extend({
     TrendCard,
     DigestCard,
   },
+  data() {
+    return {
+      day: 0,
+    };
+  },
   computed: {
     ...mapState(["digests", "trends", "loadingDigests", "loadingTrends"]),
   },
   methods: {
     ...mapActions(["getTrends", "getDigests"]),
+  },
+  watch: {
+    async day() {
+      await this.getTrends({ page: 1, day: this.day });
+    },
   },
   async mounted() {
     if (!this.digests.length) await this.getDigests();

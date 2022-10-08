@@ -140,16 +140,16 @@ const store = new Vuex.Store({
       );
       context.commit("setInterestingThemes", response.data);
     },
-    async getTrends(context, options?: { page?: number; date?: string }) {
+    async getTrends(context, options?: { page?: number; day?: number }) {
       const requestPage = options?.page
         ? options?.page
         : context.state.trends.page + 1;
       const filters = {
         page: requestPage,
         size: 10,
-      } as { page: number; size: number; date?: string };
-      if (options?.date) {
-        filters.date = options.date;
+      } as { page: number; size: number; day?: number };
+      if (options?.day) {
+        filters.day = options.day;
       }
       context.commit("setLoadingTrends", true);
       const response = await http.getList("Trend", {
