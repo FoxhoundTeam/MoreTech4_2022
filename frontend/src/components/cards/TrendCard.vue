@@ -11,6 +11,7 @@
       </v-btn>
     </v-card-actions>
     <v-card-title> {{ trend.name }} </v-card-title>
+    <v-card-subtitle> {{ trend.date }}</v-card-subtitle>
     <v-card-text>
       <v-chip-group>
         <v-chip v-for="link in trend.links" :key="link.id" :href="link.link">
