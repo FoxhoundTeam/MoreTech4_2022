@@ -6,7 +6,7 @@
     <v-row>
       <v-col class="my-1" sm="7" order-sm="1" order="12">
         <v-img class="w-50" :src="hackLogo"></v-img>
-        <h3 class="mt-2">Агрегатор новостей</h3></v-col
+        <h3 class="mt-2">Профильная лента бизнес-новостей</h3></v-col
       >
       <v-col class="my-1" order-sm="12" order="1" sm="5">
         <login v-if="$route.name == 'Login'" />

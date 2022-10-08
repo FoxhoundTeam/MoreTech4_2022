@@ -11,7 +11,7 @@
           <v-col
             ><p>Здесь пока что ничего нет</p>
             <v-btn color="primary" :to="{ name: 'News' }"
-              >Перейти к трендам</v-btn
+              >Перейти к новостям</v-btn
             ></v-col
           >
         </v-row>
