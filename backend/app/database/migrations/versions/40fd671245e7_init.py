@@ -1,15 +1,15 @@
 """init
 
-Revision ID: 058079dbdb47
+Revision ID: 40fd671245e7
 Revises: 
-Create Date: 2022-10-08 12:55:39.823265
+Create Date: 2022-10-08 17:51:59.383264
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '058079dbdb47'
+revision = '40fd671245e7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,6 +33,7 @@ def upgrade() -> None:
     op.create_table('trend',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(), nullable=True),
+    sa.Column('date', sa.Date(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_trend_id'), 'trend', ['id'], unique=True)
@@ -40,8 +41,8 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('email', sa.String(), nullable=True),
     sa.Column('password_hash', sa.String(), nullable=True),
-    sa.Column('keywords', sa.ARRAY(sa.String()), nullable=True),
-    sa.Column('relevant_trends_count', sa.Integer(), nullable=True),
+    sa.Column('keywords', sa.ARRAY(sa.String()), nullable=False),
+    sa.Column('relevant_trends_count', sa.Integer(), nullable=False),
     sa.CheckConstraint('relevant_trends_count <= 10', name='max_relevant_trends_count'),
     sa.CheckConstraint('relevant_trends_count > 0', name='min_relevant_trends_count'),
     sa.PrimaryKeyConstraint('id'),
@@ -58,8 +59,9 @@ def upgrade() -> None:
     op.create_table('trendlink',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('link', sa.String(), nullable=True),
-    sa.Column('header', sa.String(), nullable=True),
     sa.Column('site_name', sa.String(), nullable=True),
+    sa.Column('text', sa.Text(), nullable=True),
+    sa.Column('header', sa.String(), nullable=True),
     sa.Column('image_link', sa.String(), nullable=True),
     sa.Column('trend_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['trend_id'], ['trend.id'], ),

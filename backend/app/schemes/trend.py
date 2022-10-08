@@ -1,9 +1,12 @@
+import datetime
+
 from .base import CamelModel
 from .trend_link import TrendLinkORM
 
 
 class Trend(CamelModel):
     name: str
+    date: datetime.date
     links: list[TrendLinkORM]
 
 
