@@ -47,14 +47,10 @@ class TrendService(BaseDBService):
 
     def get_news(self, trend_id: int) -> list[database.News]:
         query: Query = self.session.query(database.News)
-        return (
-            query.join(database.trend_news)
-            .join(
-                database.Trend,
-                and_(
-                    database.trend_news.c.trend_id == database.Trend.id,
-                    database.Trend.id == trend_id,
-                ),
-            )
-            .all()
-        )
+        return query.join(
+            database.trend_news,
+            and_(
+                database.trend_news.c.news_id == database.News.id,
+                database.trend_news.c.trend_id == trend_id,
+            ),
+        ).all()
