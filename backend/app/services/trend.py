@@ -24,9 +24,9 @@ class TrendService(BaseDBService):
             favorite_expr,
         )
 
-    def filter_all(self, user: database.User, favorite: Optional[bool]) -> Query:
+    def filter_all(self, user: database.User, favorite: Optional[bool], day: Optional[int]) -> Query:
         query, favorite_expr = self._get_all_query(user)
-        if favorite:
+        if favorite is not None:
             query = query.filter(favorite_expr.is_(favorite))
         return query
 
