@@ -20,10 +20,11 @@ router = APIRouter(
 )
 def get_trends(
     favorite: Optional[bool] = None,
+    day: Optional[int] = None,
     trend_service: TrendService = Depends(),
     user=Depends(get_current_user),
 ):
-    return paginate(trend_service.filter_all(user, favorite))
+    return paginate(trend_service.filter_all(user, favorite, day))
 
 
 @router.post(
