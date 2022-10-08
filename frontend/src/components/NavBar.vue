@@ -16,7 +16,10 @@
       :to="{ name: 'Register' }"
       >Зарегистрироваться</v-btn
     >
-    <v-btn v-if="!isAuthenticated && $route.name != 'Login'" color="primary" :to="{ name: 'Login' }"
+    <v-btn
+      v-if="!isAuthenticated && $route.name != 'Login'"
+      color="primary"
+      :to="{ name: 'Login' }"
       >Войти</v-btn
     >
     <div v-if="isAuthenticated">
@@ -57,7 +60,7 @@ export default Vue.extend({
   methods: {
     async logout() {
       await this.logoutDispatch();
-      this.$router.replace({ name: "News" });
+      location.reload();
     },
     ...mapActions({
       logoutDispatch: "logout",
@@ -67,7 +70,7 @@ export default Vue.extend({
 </script>
 
 <style>
-.v-app-bar-title__content{
+.v-app-bar-title__content {
   width: 200px !important;
 }
 </style>

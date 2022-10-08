@@ -28,14 +28,12 @@ services:
     build: 
       dockerfile: ./compose/frontend/Dockerfile
       context: .
-    image: frontend
     restart: unless-stopped
 
   nginx:
     build: 
       dockerfile: ./compose/nginx/Dockerfile
       context: .
-    image: nginx
     restart: unless-stopped
     depends_on:
       - backend

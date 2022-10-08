@@ -32,7 +32,7 @@ export default Vue.extend({
       let cardClass = ["mx-auto"];
       if (this.mostRelevant) {
         cardClass = [...cardClass, "border", "border-success"];
-      }      
+      }
       return cardClass;
     },
   },

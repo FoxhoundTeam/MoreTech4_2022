@@ -1,54 +1,53 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const opts = {
   routes: [
     {
       path: "/",
       name: "News",
-      component: () => import('../views/Trends.vue'),
+      component: () => import("../views/Trends.vue"),
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: "/login",
       name: "Login",
-      component: () => import('../views/LoginRegister.vue'),
+      component: () => import("../views/LoginRegister.vue"),
       meta: {
-        requiresAuth: false
-      }
+        requiresAuth: false,
+      },
     },
     {
       path: "/register",
       name: "Register",
-      component: () => import('../views/LoginRegister.vue'),
+      component: () => import("../views/LoginRegister.vue"),
       meta: {
-        requiresAuth: false
-      }
+        requiresAuth: false,
+      },
     },
     {
       path: "/profile",
       name: "Profile",
-      component: () => import('../views/Profile.vue'),
+      component: () => import("../views/Profile.vue"),
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: "/favorites",
       name: "FavoriteTrends",
-      component: () => import('../views/FavoriteTrends.vue'),
+      component: () => import("../views/FavoriteTrends.vue"),
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
   ],
-  linkExactActiveClass: 'active'
+  linkExactActiveClass: "active",
 };
 const router = new VueRouter(opts);
 
-export default router
+export default router;

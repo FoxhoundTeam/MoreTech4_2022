@@ -53,7 +53,7 @@ export default Vue.extend({
         password: this.password,
       });
       if (this.$route.query.redirect) {
-        this.$router.replace({path: this.$route.query.redirect as string})
+        this.$router.replace({ path: this.$route.query.redirect as string });
       }
       this.$router.replace({ name: "News" });
     },

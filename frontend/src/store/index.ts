@@ -226,7 +226,7 @@ const store = new Vuex.Store({
         data: credentials,
         showSnackbar: true,
       });
-      if (response.status == 200) {
+      if (response.status == 201) {
         localStorage.setItem("accessToken", response.data.accessToken);
       }
       await context.dispatch("checkAuth");

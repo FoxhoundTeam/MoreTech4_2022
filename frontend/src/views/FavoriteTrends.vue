@@ -52,7 +52,7 @@ export default Vue.extend({
     ...mapActions(["getFavoriteTrends"]),
   },
   async mounted() {
-    await this.getFavoriteTrends({page: 1});
+    await this.getFavoriteTrends({ page: 1 });
   },
 });
 </script>
