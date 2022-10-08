@@ -30,8 +30,8 @@ user_interesting_theme = Table(
 digest_news = Table(
     "digest_news",
     Base.metadata,
-    Column("digest_id", Integer, ForeignKey("digest.id"), primary_key=True),
-    Column("news_id", Integer, ForeignKey("news.id"), primary_key=True),
+    Column("digest_id", Integer, ForeignKey("digest.id", ondelete="CASCADE"), primary_key=True),
+    Column("news_id", Integer, ForeignKey("news.id", ondelete="CASCADE"), primary_key=True),
 )
 
 trend_news = Table(
@@ -59,7 +59,7 @@ class News(Base):
     date: datetime.date = Column(Date, nullable=False)
     url_preview: Optional[str] = Column(String, nullable=True, default=None)
 
-    digests: list["Digest"] = relationship("Digest", secondary=digest_news, back_populates="news")
+    digests: list["Digest"] = relationship("Digest", secondary=digest_news, back_populates="news", passive_deletes=True)
     trends: list["Trend"] = relationship("Trend", secondary=trend_news, back_populates="news")
 
 
@@ -74,7 +74,7 @@ class Digest(Base):
     topic: list[str] = Column(ARRAY(String), nullable=False, default=[])
     user_id: int = Column(Integer, ForeignKey("user.id"))
     user: "User" = relationship("User", back_populates="digests")
-    news: list["News"] = relationship("News", secondary=digest_news, back_populates="digests")
+    news: list["News"] = relationship("News", secondary=digest_news, back_populates="digests", cascade="all, delete")
 
 
 class Role(Base):

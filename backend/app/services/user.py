@@ -7,6 +7,8 @@ class UserService(BaseDBService):
         return self.session.query(database.User).get(_id)
 
     def patch_user(self, user: database.User, patch_data: schemes.UserPatch):
+        if patch_data.dict(include={"keywords", "interesting_themes", "relevant_digests_count"}, exclude_none=True):
+            user.digests.clear()
         for key, value in patch_data.dict(exclude_none=True, exclude={"interesting_themes"}).items():
             setattr(user, key, value)
         if (its := patch_data.interesting_themes) is not None:
