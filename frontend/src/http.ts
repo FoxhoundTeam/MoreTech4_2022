@@ -27,8 +27,8 @@ export default {
     Register: "/api/auth/sign-up/",
     ChangePassword: "/api/auth/change-password/",
     Role: "/api/roles/",
-    InterestingTrend: "/api/interesting-trend/",
-    RelevantTrend: "/api/relevant-trend/",
+    InterestingTheme: "/api/interesting-theme/",
+    Digest: "/api/digest/",
     Trend: "/api/trend/",
   } as Record<string, string>,
   getFilterValues: function (filters: TFilters | undefined) {

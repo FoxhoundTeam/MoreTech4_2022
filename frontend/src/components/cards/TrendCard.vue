@@ -1,6 +1,16 @@
 <template>
-  <v-card :class="cardClass">
+  <v-card class="mx-auto">
+    <v-card-title> {{ trend.title }} </v-card-title>
+    <v-card-subtitle> {{ trend.date }}</v-card-subtitle>
     <v-card-actions>
+      <v-btn
+        color="primary"
+        text
+        :to="{ name: 'TrendNews', params: { id: trend.id } }"
+      >
+        Перейти к новостям
+      </v-btn>
+      <v-spacer />
       <v-btn
         icon
         color="warning"
@@ -10,15 +20,6 @@
         <v-icon>{{ trend.favorite ? "mdi-star" : "mdi-star-outline" }}</v-icon>
       </v-btn>
     </v-card-actions>
-    <v-card-title> {{ trend.name }} </v-card-title>
-    <v-card-subtitle> {{ trend.date }}</v-card-subtitle>
-    <v-card-text>
-      <v-chip-group>
-        <v-chip v-for="link in trend.links" :key="link.id" :href="link.link">
-          {{ link.siteName }}
-        </v-chip>
-      </v-chip-group>
-    </v-card-text>
   </v-card>
 </template>
 
@@ -33,21 +34,9 @@ export default Vue.extend({
       type: Object as PropType<Trend>,
       required: true,
     },
-    mostRelevant: {
-      type: Boolean,
-      required: false,
-      default: () => false,
-    },
   },
   computed: {
     ...mapState(["settingFavoriteTrendFor"]),
-    cardClass(): string[] {
-      let cardClass = ["mx-auto"];
-      if (this.mostRelevant) {
-        cardClass = [...cardClass, "border", "border-success"];
-      }
-      return cardClass;
-    },
   },
   methods: {
     ...mapActions(["setFavoriteTrend"]),

@@ -45,6 +45,22 @@ const opts = {
         requiresAuth: true,
       },
     },
+    {
+      path: "/trend/:id/news",
+      name: "TrendNews",
+      component: () => import("../views/News.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/digest/:id/news",
+      name: "DigestNews",
+      component: () => import("../views/News.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ],
   linkExactActiveClass: "active",
 };

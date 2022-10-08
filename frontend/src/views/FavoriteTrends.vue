@@ -23,13 +23,13 @@
 
         <div v-if="favoriteTrends.next" v-intersect="getFavoriteTrends">
           <v-row
-            ><v-col><trend-skeleton-card /></v-col
+            ><v-col><digest-skeleton-card /></v-col
           ></v-row>
           <v-row
-            ><v-col><trend-skeleton-card /></v-col
+            ><v-col><digest-skeleton-card /></v-col
           ></v-row>
           <v-row
-            ><v-col><trend-skeleton-card /></v-col
+            ><v-col><digest-skeleton-card /></v-col
           ></v-row>
         </div>
       </v-col>
@@ -40,11 +40,11 @@
 
 <script lang="ts">
 import TrendCard from "@/components/cards/TrendCard.vue";
-import TrendSkeletonCard from "@/components/cards/TrendSkeletonCard.vue";
+import DigestSkeletonCard from "@/components/cards/DigestSkeletonCard.vue";
 import Vue from "vue";
 import { mapActions, mapState } from "vuex";
 export default Vue.extend({
-  components: { TrendSkeletonCard, TrendCard },
+  components: { DigestSkeletonCard, TrendCard },
   computed: {
     ...mapState(["favoriteTrends", "loadingFavoriteTrends"]),
   },

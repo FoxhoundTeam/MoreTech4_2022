@@ -2,24 +2,24 @@
   <v-container fluid>
     <v-row>
       <v-col cols="4">
-        <recommendation-settings @onSave="getRelevantTrends" />
+        <recommendation-settings @onSave="getDigests" />
       </v-col>
       <v-col cols="6">
-        <div v-if="loadingRelevantTrends">
+        <h2>Дайджесты</h2>
+        <v-divider />
+        <div v-if="loadingDigests">
           <v-row
-            ><v-col><trend-skeleton-card :mostRelevant="true" /></v-col
+            ><v-col><digest-skeleton-card /></v-col
           ></v-row>
           <v-row
-            ><v-col><trend-skeleton-card :mostRelevant="true" /></v-col
+            ><v-col><digest-skeleton-card /></v-col
           ></v-row>
         </div>
-
-        <v-row
-          v-for="relevantTrend in relevantTrends"
-          :key="`relevantTrend-${relevantTrend.id}`"
-          ><v-col>
-            <trend-card :trend="relevantTrend" :mostRelevant="true" /></v-col
+        <v-row v-for="digest in digests" :key="`digest-${digest.id}`"
+          ><v-col> <digest-card :digest="digest" /></v-col
         ></v-row>
+        <h2 class="mt-5">Тренды</h2>
+        <v-divider />
         <v-row v-for="trend in trends.items" :key="`trend-${trend.id}`"
           ><v-col> <trend-card :trend="trend" /></v-col
         ></v-row>
@@ -42,25 +42,29 @@
 
 <script lang="ts">
 import TrendCard from "@/components/cards/TrendCard.vue";
+import DigestCard from "@/components/cards/DigestCard.vue";
 import TrendSkeletonCard from "@/components/cards/TrendSkeletonCard.vue";
+import DigestSkeletonCard from "@/components/cards/DigestSkeletonCard.vue";
 import RecommendationSettings from "@/components/forms/RecommendationSettings.vue";
 import Vue from "vue";
 import { mapActions, mapState } from "vuex";
 export default Vue.extend({
-  components: { RecommendationSettings, TrendSkeletonCard, TrendCard },
+  components: {
+    RecommendationSettings,
+    TrendSkeletonCard,
+    DigestSkeletonCard,
+    TrendCard,
+    DigestCard,
+  },
   computed: {
-    ...mapState([
-      "relevantTrends",
-      "trends",
-      "loadingRelevantTrends",
-      "loadingTrends",
-    ]),
+    ...mapState(["digests", "trends", "loadingDigests", "loadingTrends"]),
   },
   methods: {
-    ...mapActions(["getTrends", "getRelevantTrends"]),
+    ...mapActions(["getTrends", "getDigests"]),
   },
   async mounted() {
-    if (!this.relevantTrends.length) await this.getRelevantTrends();
+    if (!this.digests.length) await this.getDigests();
+    if (!this.trends.items.length) await this.getTrends();
   },
 });
 </script>

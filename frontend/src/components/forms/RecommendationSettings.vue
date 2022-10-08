@@ -5,13 +5,13 @@
       <v-form v-model="valid">
         <v-text-field
           type="number"
-          label="Количество релевантных новостей"
-          v-model="relevantTrendsCount"
-          :rules="[rules.required, rules.relevantTrendsCountValidator]"
+          label="Количество релевантных дайджестов"
+          v-model="relevantDigestsCount"
+          :rules="[rules.required, rules.relevantDigestsCountValidator]"
         />
         <v-autocomplete
-          v-model="userInterestingTrends"
-          :items="interestingTrends"
+          v-model="userInterestingThemes"
+          :items="interestingThemes"
           label="Темы"
           multiple
           chips
@@ -42,36 +42,36 @@
 <script lang="ts">
 import Vue from "vue";
 import { mapActions, mapState } from "vuex";
-import { required, relevantTrendsCountValidator } from "@/validators";
+import { required, relevantDigestsCountValidator } from "@/validators";
 
 export default Vue.extend({
   data() {
     return {
       keywords: [],
-      userInterestingTrends: [],
-      relevantTrendsCount: 0,
+      userInterestingThemes: [],
+      relevantDigestsCount: 0,
       loading: false,
       valid: false,
-      rules: { required, relevantTrendsCountValidator },
+      rules: { required, relevantDigestsCountValidator },
     };
   },
   computed: {
-    ...mapState(["user", "interestingTrends"]),
+    ...mapState(["user", "interestingThemes"]),
   },
   async beforeMount() {
-    if (!this.interestingTrends.length) await this.getInterestingTrends();
+    if (!this.interestingThemes.length) await this.getInterestingThemes();
     this.keywords = [...this.user.keywords] as never[];
-    this.userInterestingTrends = [...this.user.interestingTrends] as never[];
-    this.relevantTrendsCount = this.user.relevantTrendsCount;
+    this.userInterestingThemes = [...this.user.interestingThemes] as never[];
+    this.relevantDigestsCount = this.user.relevantDigestsCount;
   },
   methods: {
-    ...mapActions(["updateUserInfo", "getInterestingTrends"]),
+    ...mapActions(["updateUserInfo", "getInterestingThemes"]),
     async save(): Promise<void> {
       this.loading = true;
       await this.updateUserInfo({
         keywords: this.keywords,
-        interestingTrends: this.userInterestingTrends,
-        relevantTrendsCount: this.relevantTrendsCount,
+        interestingThemes: this.userInterestingThemes,
+        relevantDigestsCount: this.relevantDigestsCount,
       });
       this.loading = false;
       this.$emit("onSave");

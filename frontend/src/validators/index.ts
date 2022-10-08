@@ -5,6 +5,6 @@ export const isEmail = (v: string) =>
   "Введите корректный email.";
 export const passwordsMatches = (password1: string, password2: string) =>
   password1 == password2 || "Пароли не совпадают";
-export const relevantTrendsCountValidator = (v: number) =>
+export const relevantDigestsCountValidator = (v: number) =>
   (v > 0 && v <= 10) ||
-  "Количество релевантных новостей должно быть от 1 до 10";
+  "Количество релевантных дайджестов должно быть от 1 до 10";

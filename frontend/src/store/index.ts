@@ -10,10 +10,11 @@ import {
   ILoginResponse,
   RegisterData,
   Trend,
-  InterestingTrend,
+  InterestingTheme,
   ChangeUserPasswordData,
   PaginatedResponse,
   Role,
+  Digest,
 } from "./types";
 
 Vue.use(Vuex);
@@ -27,7 +28,7 @@ const store = new Vuex.Store({
     snackbarColor: null as TSnackbarColor,
     showSnackbar: false,
     snackbarText: null as string | null,
-    relevantTrends: [] as Trend[],
+    digests: [] as Digest[],
     trends: {
       page: 0,
       items: [] as Trend[],
@@ -35,13 +36,13 @@ const store = new Vuex.Store({
     } as PaginatedResponse<Trend>,
     loadingTrends: false,
     loadingFavoriteTrends: false,
-    loadingRelevantTrends: false,
+    loadingDigests: false,
     favoriteTrends: {
       page: 0,
       items: [] as Trend[],
       next: false,
     } as PaginatedResponse<Trend>,
-    interestingTrends: [] as InterestingTrend[],
+    interestingThemes: [] as InterestingTheme[],
     roles: [] as Role[],
     settingFavoriteTrendFor: [] as number[],
   },
@@ -88,11 +89,11 @@ const store = new Vuex.Store({
         };
       }
     },
-    setInterestingTrends(state, interestingTrends: InterestingTrend[]) {
-      state.interestingTrends = interestingTrends;
+    setInterestingThemes(state, interestingTrends: InterestingTheme[]) {
+      state.interestingThemes = interestingTrends;
     },
-    setRelevantTrends(state, trends: Trend[]) {
-      state.relevantTrends = trends;
+    setDigests(state, digests: Digest[]) {
+      state.digests = digests;
     },
     setLoadingTrends(state, value: boolean) {
       state.loadingTrends = value;
@@ -100,8 +101,8 @@ const store = new Vuex.Store({
     setLoadingFavoriteTrends(state, value: boolean) {
       state.loadingFavoriteTrends = value;
     },
-    setLoadingRelevantTrends(state, value: boolean) {
-      state.loadingRelevantTrends = value;
+    setLoadingDigests(state, value: boolean) {
+      state.loadingDigests = value;
     },
     setRoles(state, roles: Role[]) {
       state.roles = [{ id: null, name: "Без роли" }, ...roles];
@@ -132,38 +133,40 @@ const store = new Vuex.Store({
         text: "Пароль успешно изменен",
       } as IShowSnackbar);
     },
-    async getInterestingTrends(context) {
-      const response = await http.getList<InterestingTrend[]>(
-        "InterestingTrend",
+    async getInterestingThemes(context) {
+      const response = await http.getList<InterestingTheme[]>(
+        "InterestingTheme",
         { showSnackbar: true }
       );
-      context.commit("setInterestingTrends", response.data);
+      context.commit("setInterestingThemes", response.data);
     },
-    async getTrends(context, options?: { page?: number }) {
+    async getTrends(context, options?: { page?: number; date?: string }) {
       const requestPage = options?.page
         ? options?.page
         : context.state.trends.page + 1;
+      const filters = {
+        page: requestPage,
+        size: 10,
+      } as { page: number; size: number; date?: string };
+      if (options?.date) {
+        filters.date = options.date;
+      }
       context.commit("setLoadingTrends", true);
       const response = await http.getList("Trend", {
-        filters: {
-          page: requestPage,
-          exclude_ids: context.state.relevantTrends.map((v) => v.id).join(","),
-          size: 10,
-        },
+        filters: filters,
         showSnackbar: true,
       });
       if (response.status == 200) context.commit("setTrends", response.data);
       context.commit("setLoadingTrends", false);
     },
-    async getRelevantTrends(context) {
-      context.commit("setLoadingRelevantTrends", true);
-      const response = await http.getList<Trend[]>("RelevantTrend", {
+    async getDigests(context) {
+      context.commit("setLoadingDigests", true);
+      const response = await http.getList<Trend[]>("Digest", {
         showSnackbar: true,
       });
-      context.commit("setLoadingRelevantTrends", false);
+      context.commit("setLoadingDigests", false);
       if (response.status != 200) return;
-      context.commit("setRelevantTrends", response.data);
-      await context.dispatch("getTrends", { page: 1 });
+      context.commit("setDigests", response.data);
     },
     async getFavoriteTrends(context, options?: { page?: number }) {
       const requestPage = options?.page

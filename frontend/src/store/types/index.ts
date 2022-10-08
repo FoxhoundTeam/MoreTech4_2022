@@ -1,4 +1,4 @@
-export interface InterestingTrend {
+export interface InterestingTheme {
   id: number;
   name: string;
 }
@@ -7,22 +7,31 @@ export interface User {
   id: number;
   email: string;
   keywords: string[];
-  relevantTrendsCount: number;
-  interestingTrends: InterestingTrend[];
+  relevantDigestsCount: number;
+  interestingThemes: InterestingTheme[];
 }
 
 export interface News {
   id: number;
-  link: string;
-  header: string;
-  siteName: string;
-  imageLink?: string;
+  url: string;
+  title: string;
+  date: string;
+  urlPreview?: string;
 }
 
 export interface Trend {
   id: number;
-  name: string;
+  title: string;
+  topic: string[];
+  date: string;
   favorite: boolean;
+  news: News[];
+}
+
+export interface Digest {
+  id: number;
+  title: string;
+  topic: string[];
   news: News[];
 }
 
