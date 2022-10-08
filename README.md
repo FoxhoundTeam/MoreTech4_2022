@@ -1,1 +1,1 @@
-# MoreTech4_2022
+# Хакатон MoreTech4_2022, решение команды Foxhound
