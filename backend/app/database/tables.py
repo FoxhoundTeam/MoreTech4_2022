@@ -1,6 +1,7 @@
+import datetime
 from typing import Optional
 
-from sqlalchemy import ARRAY, CheckConstraint, Column, ForeignKey, Integer, String, Table
+from sqlalchemy import ARRAY, CheckConstraint, Column, Date, ForeignKey, Integer, String, Table, Text
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import query_expression, relationship
 
@@ -29,6 +30,7 @@ user_interesting_trend = Table(
 
 class Trend(Base):
     name: str = Column(String)
+    date: datetime.datetime = Column(Date)
     links: list["TrendLink"] = relationship("TrendLink", back_populates="trend", lazy="joined")
     users: list["User"] = relationship("User", secondary=user_trend, back_populates="trends")
 
@@ -38,6 +40,7 @@ class Trend(Base):
 class TrendLink(Base):
     link: str = Column(String)
     site_name: str = Column(String)
+    text: str = Column(Text, default="")
     header: Optional[str] = Column(String, nullable=True, default=None)
     image_link: Optional[str] = Column(String, nullable=True, default=None)
 
