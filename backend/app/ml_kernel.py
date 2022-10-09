@@ -14,19 +14,18 @@ from base64 import b64encode
 from io import BytesIO
 
 
-def extract_digest(df: pd.DataFrame, keywords: list[str]) -> list:
+def extract_digest(df: pd.DataFrame, keywords: list[str]):
     """
     Функция возвращает набор дайджестов, а также изображение - облако тегов
 
     Args:
 
-    df - PandasDataFrame со срезом новостей, уже очищенные и лемматизиованные колонки
+    df - PandasDataframe со срезом новостей, уже очищенные и лемматизиованные колонки
     ['url', 'title', 'text', 'date', 'url_preview', 'text_prepared2', 'title_prepared2']
 
-    keywords - list ключевых слов для фильтрации тем для данного типа пользователя
+    keywords - list ключевых слов для фильтации тем для данного типа пользователя
 
     """
-    result = []
 
     # кластеризация
     text_to_clusterize = df["text_prepared2"].apply(lambda x: " ".join(x)).values
@@ -34,14 +33,15 @@ def extract_digest(df: pd.DataFrame, keywords: list[str]) -> list:
     x = v.fit_transform(text_to_clusterize)
     df_tmp = df.copy()
     df_tmp["tf-idf"] = pd.Series(list(x.toarray()))
-    n_clusters = 20
+    n_clusters = 10
     model = KMeans(n_clusters=n_clusters, init="k-means++", max_iter=200, n_init=10)
     model.fit(x)
     labels = model.labels_
     df_tmp["labels"] = labels
 
     # выделение тем из кластеров
-    for label in labels:
+    result = []
+    for idx, label in enumerate(set(labels)):
         cluster_df = df_tmp[df_tmp["labels"] == label]
         if not len(cluster_df):
             continue
@@ -67,7 +67,7 @@ def extract_digest(df: pd.DataFrame, keywords: list[str]) -> list:
             for j in range(len(components))
         ]
 
-        long_string = ",".join(list(df["text_prepared2"].apply(lambda x: ",".join(x)).values))
+        long_string = ",".join(list(cluster_df["text_prepared2"].apply(lambda x: ",".join(x)).values))
         wordcloud = WordCloud(background_color="white", max_words=5000, contour_width=3, contour_color="steelblue")
         # Generate a word cloud
         wordcloud.generate(long_string)
@@ -80,14 +80,16 @@ def extract_digest(df: pd.DataFrame, keywords: list[str]) -> list:
 
         result.append(
             {
-                "topic": important_words,
+                "topic": important_words[0],
                 "title": cluster_df["title"].iloc[0],
                 "news": news_ids,
                 "image_tags": img_b64str,
             }
         )
 
-    # фильтрация тем
-    #     TODO
+    result_filtered = []
+    for itm in result:
+        if bool(set(itm["topic"]) & set(keywords)):
+            result_filtered.append(itm)
 
-    return result
+    return result_filtered
