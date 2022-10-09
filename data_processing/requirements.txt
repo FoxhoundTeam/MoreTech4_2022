@@ -1,0 +1,10 @@
+pandas
+sklearn
+wordcloud
+spacy
+nltk
+clean-text
+pymystem3
+scikit-learn
+scipy
+Pillow
