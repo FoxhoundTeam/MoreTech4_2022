@@ -86,10 +86,12 @@ def extract_digest(df: pd.DataFrame, keywords: list[str]):
                 "image_tags": img_b64str,
             }
         )
-
+    print(result)
     result_filtered = []
     for itm in result:
         if bool(set(itm["topic"]) & set(keywords)):
             result_filtered.append(itm)
+
+    print(result_filtered)
 
     return result_filtered
