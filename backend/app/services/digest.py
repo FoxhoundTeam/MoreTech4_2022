@@ -14,6 +14,7 @@ class DigestService(BaseDBService):
         digests = self.session.query(database.Digest).filter(database.Digest.user_id == user.id).all()
         if not digests:
             return self.generate_digests(user)
+        return digests
 
     def get_news(self, digest_id: int) -> list[database.News]:
         query: Query = self.session.query(database.News)
