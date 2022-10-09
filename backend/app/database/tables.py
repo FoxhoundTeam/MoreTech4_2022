@@ -58,6 +58,8 @@ class News(Base):
     text: str = Column(Text, nullable=False)
     date: datetime.date = Column(Date, nullable=False)
     url_preview: Optional[str] = Column(String, nullable=True, default=None)
+    text_prepared: list[str] = Column(ARRAY(String), nullable=False, default=[])
+    title_prepared: list[str] = Column(ARRAY(String), nullable=False, default=[])
 
     digests: list["Digest"] = relationship("Digest", secondary=digest_news, back_populates="news", passive_deletes=True)
     trends: list["Trend"] = relationship("Trend", secondary=trend_news, back_populates="news")
@@ -80,7 +82,7 @@ class Digest(Base):
 class Role(Base):
     name: str = Column(String)
     code: int = Column(Integer)
-    interesting_themes: list["Trend"] = relationship(
+    interesting_themes: list["InterestingTheme"] = relationship(
         "InterestingTheme",
         secondary=role_interesting_theme,
         back_populates="roles",

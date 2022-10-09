@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="mt-5">
-      <v-col cols="12"><h1>FoxDigests</h1></v-col>
+      <v-col cols="12"><h1>FoxDigest</h1></v-col>
     </v-row>
     <v-row>
       <v-col class="my-1" sm="7" order-sm="1" order="12">

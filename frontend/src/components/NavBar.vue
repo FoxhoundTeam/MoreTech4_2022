@@ -4,7 +4,7 @@
       ><router-link
         :to="{ name: 'News' }"
         class="text-decoration-none text-dark text-no-wrap"
-        >FoxDigests</router-link
+        >FoxDigest</router-link
       ></v-app-bar-title
     >
     <v-spacer></v-spacer>
