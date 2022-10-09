@@ -35,7 +35,7 @@ class DigestService(BaseDBService):
         for digest in digests:
             news = self.session.query(database.News).filter(database.News.id.in_(digest.pop("news", [])))
             digest = database.Digest(**digest)
-            digest.news = news
+            digest.news = news.all()
             self.session.add(digest)
         self.session.commit()
         return self.session.query(database.Digest).filter(database.Digest.user_id == user.id).all()
