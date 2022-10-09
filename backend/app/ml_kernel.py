@@ -14,7 +14,7 @@ from base64 import b64encode
 from io import BytesIO
 
 
-def extract_digest(df, keywords):
+def extract_digest(df: pd.DataFrame, keywords: list[str]) -> list:
     """
     Функция возвращает набор дайджестов, а также изображение - облако тегов
 
@@ -38,12 +38,13 @@ def extract_digest(df, keywords):
     model = KMeans(n_clusters=n_clusters, init="k-means++", max_iter=200, n_init=10)
     model.fit(x)
     labels = model.labels_
-    df_tmp["labels"] = pd.Series(labels, dtype=int)
-    print(df_tmp)
+    df_tmp["labels"] = labels
 
     # выделение тем из кластеров
     for label in labels:
         cluster_df = df_tmp[df_tmp["labels"] == label]
+        if not len(cluster_df):
+            continue
         news_ids = cluster_df.index.to_list()
         cluster_news = cluster_df["text_prepared2"].to_list()
         cluster_words = []

@@ -76,6 +76,7 @@ class Digest(Base):
     topic: list[str] = Column(ARRAY(String), nullable=False, default=[])
     user_id: int = Column(Integer, ForeignKey("user.id"))
     user: "User" = relationship("User", back_populates="digests")
+    image_tags: Optional[str] = Column(String, nullable=True)
     news: list["News"] = relationship("News", secondary=digest_news, back_populates="digests", passive_deletes=True)
 
 

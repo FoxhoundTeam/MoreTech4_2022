@@ -1,5 +1,6 @@
 <template>
   <v-card class="mx-auto border border-success">
+    <v-img v-if="digest.imageTags" :src="'data:image/png;base64, ' + digest.imageTags" height="200px"></v-img>
     <v-card-title> {{ digest.title }} </v-card-title>
     <v-card-text>
       <v-chip-group>
