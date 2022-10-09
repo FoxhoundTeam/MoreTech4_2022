@@ -34,7 +34,7 @@ class DigestService(BaseDBService):
         digests = extract_digest(df, keywords)[: user.relevant_digests_count]
         for digest in digests:
             news = self.session.query(database.News).filter(database.News.id.in_(digest.pop("news", [])))
-            digest = database.Digest(**digest)
+            digest = database.Digest(**digest, user_id=user.id)
             digest.news = news.all()
             self.session.add(digest)
         self.session.commit()
