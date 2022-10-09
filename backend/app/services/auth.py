@@ -91,7 +91,7 @@ class AuthService(BaseDBService):
         )
         if user_data.role:
             role: database.Role = self.session.query(database.Role).get(user_data.role)
-            user.interesting_trends = role.interesting_trends
+            user.interesting_themes = role.interesting_themes
         self.session.add(user)
         self.session.commit()
 

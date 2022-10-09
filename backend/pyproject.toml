@@ -13,9 +13,20 @@ SQLAlchemy = "^1.4.41"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 psycopg2-binary = "^2.9.4"
-pydantic = {extras = ["email"], version = "^1.10.2"}
+pydantic = {extras = ["email"], version = "^1.9.1"}
 pyhumps = "^3.7.3"
 fastapi-pagination = {extras = ["sqlalchemy"], version = "^0.10.0"}
+ipython = "^8.5.0"
+pandas = "^1.5.0"
+sklearn = "^0.0"
+wordcloud = "^1.8.2.2"
+spacy = "^3.4.1"
+nltk = "^3.7"
+clean-text = "^0.6.0"
+pymystem3 = "^0.2.0"
+scikit-learn = "^1.1.2"
+scipy = "^1.9.2"
+Pillow = "^9.2.0"
 
 
 [tool.poetry.group.dev.dependencies]

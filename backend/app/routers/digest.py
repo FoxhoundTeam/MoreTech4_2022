@@ -14,11 +14,10 @@ router = APIRouter(
     "/",
     response_model=list[schemes.DigestORM],
 )
-def get_relevant_trends(
+def get_digests(
     digest_service: DigestService = Depends(),
     user=Depends(get_current_user),
 ):
-    # TODO
     return digest_service.get_all(user)
 
 

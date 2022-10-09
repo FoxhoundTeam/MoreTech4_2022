@@ -13,5 +13,5 @@ router = APIRouter(
     "/",
     response_model=list[schemes.InterestingThemeORM],
 )
-def get_interesting_trends(interesting_theme_service: InterestingThemeService = Depends()):
+def get_interesting_themes(interesting_theme_service: InterestingThemeService = Depends()):
     return interesting_theme_service.get_all()

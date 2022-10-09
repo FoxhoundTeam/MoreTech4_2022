@@ -12,7 +12,7 @@ class UserService(BaseDBService):
         for key, value in patch_data.dict(exclude_none=True, exclude={"interesting_themes"}).items():
             setattr(user, key, value)
         if (its := patch_data.interesting_themes) is not None:
-            user.interesting_trends = (
+            user.interesting_themes = (
                 self.session.query(database.InterestingTheme)
                 .filter(database.InterestingTheme.id.in_([it.id for it in its]))
                 .all()
