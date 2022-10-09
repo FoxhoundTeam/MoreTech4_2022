@@ -25,24 +25,28 @@ def extract_digest(df, keywords):
     keywords - list ключевых слов для фильтации тем для данного типа пользователя
     
     """
-    result = []
+    
     
     # кластеризация
     text_to_clusterize = df['text_prepared2'].apply(lambda x: ' '.join(x)).values
-    print("text_to_clusterize = ", text_to_clusterize) # отладка
+    # print("text_to_clusterize = ", text_to_clusterize) # отладка
     v = TfidfVectorizer()
     x = v.fit_transform(text_to_clusterize)
     df_tmp = df.copy()
     df_tmp['tf-idf']=pd.Series(list(x.toarray()))
-    n_clusters = 20
+    n_clusters = 10
     model = KMeans(n_clusters=n_clusters, init='k-means++', max_iter=200, n_init=10)
     model.fit(x)
     labels=model.labels_
+    print(labels)
     df_tmp['labels']=pd.Series(labels, dtype=int)
 
     # выделение тем из кластеров
-    for label in labels:
+    result = []
+    for idx, label in enumerate(set(labels)):
         cluster_df = df_tmp[df_tmp['labels'] == label]
+        print(idx)
+        # print(cluster_df)
         news_ids = cluster_df.index.to_list()
         cluster_news = cluster_df['text_prepared2'].to_list()
         cluster_words = []
@@ -62,7 +66,7 @@ def extract_digest(df, keywords):
         features = count_vect.get_feature_names()
         important_words = [sorted(features, key = lambda x: components[j][features.index(x)], reverse = True)[:topic_length] for j in range(len(components))]     
         
-        long_string = ','.join(list(df['text_prepared2'].apply(lambda x: ','.join(x)).values))
+        long_string = ','.join(list(cluster_df['text_prepared2'].apply(lambda x: ','.join(x)).values))
         wordcloud = WordCloud(background_color="white", max_words=5000, contour_width=3, contour_color='steelblue')
         # Generate a word cloud
         wordcloud.generate(long_string)
