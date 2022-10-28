@@ -1,4 +1,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![GitHub contributors](https://img.shields.io/github/contributors/Ornstein89/VTB_API_hack2022)
 
 # Хакатон MoreTech 4, 7-9 октября 2022 г, решение команды Foxhound
 # FoxDigests
