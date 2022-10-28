@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Хакатон MoreTech 4, 7-9 октября 2022 г, решение команды Foxhound
 # FoxDigests
 Профильная лента бизнес-новостей
